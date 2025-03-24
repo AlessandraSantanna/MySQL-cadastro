@@ -6,6 +6,7 @@ import Form from "./components/form.js";
 import Grid from "./components/Grid";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Banner from "./components/Banner";
 
 const Container = styled.div`
   width: 100%;
@@ -39,13 +40,16 @@ function App() {
   return (
     <>
       <Container>
-        
-        <Title>USUÁRIOS</Title>
+     
+      <Banner text="Veterinária 24h
+Bem-vindo a Happy Pets, sua clínica veterinária especializada em atendimento emergencial cirúrgico no Rio de Janeiro." /> {/* Passe o texto aqui */}
+        <Title>Cadastro de Pets</Title>
         <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers} />
         <Grid setOnEdit={setOnEdit} users={users} setUsers={setUsers} />
       </Container>
       <ToastContainer autoClose={3000} position="bottom-left" />
       <GlobalStyle />
+    
     </>
   );
 }

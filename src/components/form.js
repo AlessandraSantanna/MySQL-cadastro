@@ -46,67 +46,83 @@ const Form = ({ getUsers, onEdit, setOnEdit }) => {
     if (onEdit) {
       const user = ref.current;
 
-      user.nome.value = onEdit.nome;
-      user.email.value = onEdit.email;
+      user.nome_do_proprietario.value = onEdit.nome_do_proprietario;
+      user.nome_do_pet.value = onEdit.nome_do_pet;
       user.fone.value = onEdit.fone;
       user.data_nascimento.value = onEdit.data_nascimento;
     }
   }, [onEdit]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const user = ref.current;
-
+  
+    // Verificando se todos os campos estão preenchidos
     if (
-      !user.nome.value ||
-      !user.email.value ||
+      !user.nome_do_proprietario.value ||
+      !user.nome_do_pet.value ||
       !user.fone.value ||
       !user.data_nascimento.value
     ) {
       return toast.warn("Preencha todos os campos!");
     }
-
+  
+    // Se for edição
     if (onEdit) {
-      await axios
-        .put("http://localhost:8800/" + onEdit.id, {
-          nome: user.nome.value,
-          email: user.email.value,
-          fone: user.fone.value,
-          data_nascimento: user.data_nascimento.value,
-        })
-        .then(({ data }) => toast.success(data))
-        .catch(({ data }) => toast.error(data));
+      try {
+        await axios
+          .put("http://localhost:8800/" + onEdit.id, {
+            nome_do_proprietario: user.nome_do_proprietario.value,
+            nome_do_pet: user.nome_do_pet.value,
+            fone: user.fone.value,
+            data_nascimento: user.data_nascimento.value,
+          })
+          .then(({ data }) => toast.success(data));
+        
+        toast.success("Usuário atualizado com sucesso!");
+  
+      } catch ({ response }) {
+        toast.error(response.data);
+      }
     } else {
-      await axios
-        .post("http://localhost:8800", {
-          nome: user.nome.value,
-          email: user.email.value,
-          fone: user.fone.value,
-          data_nascimento: user.data_nascimento.value,
-        })
-        .then(({ data }) => toast.success(data))
-        .catch(({ data }) => toast.error(data));
+      // Se for criação
+      try {
+        await axios
+          .post("http://localhost:8800", {
+            nome_do_proprietario: user.nome_do_proprietario.value,
+            nome_do_pet: user.nome_do_pet.value,
+            fone: user.fone.value,
+            data_nascimento: user.data_nascimento.value,
+          })
+          .then(({ data }) => toast.success(data));
+  
+        toast.success("Usuário cadastrado com sucesso!");
+      } catch ({ response }) {
+        toast.error(response.data);
+      }
     }
-
-    user.nome.value = "";
-    user.email.value = "";
+  
+    // Limpando os campos após submit
+    user.nome_do_proprietario.value = "";
+    user.nome_do_pet.value = "";
     user.fone.value = "";
     user.data_nascimento.value = "";
-
+  
+    // Resetando a edição
     setOnEdit(null);
     getUsers();
   };
+  
 
   return (
     <FormContainer ref={ref} onSubmit={handleSubmit}>
       <InputArea>
-        <Label>Nome</Label>
-        <Input name="nome" />
+        <Label>Nome do Proprietário</Label>
+        <Input name="nome_do_proprietario" />
       </InputArea>
       <InputArea>
-        <Label>E-mail</Label>
-        <Input name="email" type="email" />
+        <Label>Nome do Pet</Label>
+        <Input name="nome_do_pet" type="nome_do_pet" />
       </InputArea>
       <InputArea>
         <Label>Telefone</Label>

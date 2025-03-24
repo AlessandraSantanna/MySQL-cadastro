@@ -33,13 +33,14 @@ export const Th = styled.th`
 
 export const Td = styled.td`
   padding-top: 15px;
-  text-align: ${(props) => (props.alignCenter ? "center" : "start")};
+  text-align: ${(props) => (props.$alignCenter ? "center" : "start")};
   width: ${(props) => (props.width ? props.width : "auto")};
 
   @media (max-width: 500px) {
     ${(props) => props.$onlyWeb && "display: none"}
   }
 `;
+
 
 const Grid = ({ users, setUsers, setOnEdit }) => {
   const handleEdit = (item) => {
@@ -64,8 +65,8 @@ const Grid = ({ users, setUsers, setOnEdit }) => {
     <Table>
       <Thead>
         <Tr>
-          <Th>Nome</Th>
-          <Th>Email</Th>
+          <Th>Nome Proprietario</Th>
+          <Th>Nome do pet</Th>
           <Th $onlyWeb>Fone</Th>
           <Th></Th>
           <Th></Th>
@@ -74,9 +75,9 @@ const Grid = ({ users, setUsers, setOnEdit }) => {
       <Tbody>
         {users.map((item, i) => (
           <Tr key={i}>
-            <Td width="30%">{item.nome}</Td>
-            <Td width="30%">{item.email}</Td>
-            <Td width="20%" $onlyWeb>
+            <Td width="30%">{item.nome_do_proprietario}</Td>
+            <Td width="30%">{item.nome_do_pet}</Td>
+            <Td width="30%" $onlyWeb> 
               {item.fone}
             </Td>
             <Td alignCenter width="5%">
